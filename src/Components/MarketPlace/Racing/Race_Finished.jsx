@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 export default function Race_Finished({ scoring }) {
     const [FirstPosition, setFirstPosition] = useState()
     const [SecondPositopn, setSecondPositopn] = useState()
     const [ThirdPosition, setThirdPosition] = useState()
 
-    
+    var date = new Date();
+	var current_date =  date.getDate()+"-"+(date.getMonth()+1)+"-"+ date.getFullYear();
     
     
     const enableRace = async () => {
@@ -50,19 +52,19 @@ export default function Race_Finished({ scoring }) {
                     <div class="bx-full">
                         <div class="bx-header finish">
                             <div class="header-inner">
-                                <div class="header-title">
+                                <div class="header-title ">
                                     <span>Finished</span>
                                 </div>
-                                <div class="header-match">
+                                {/* <div class="header-match">
                                     <div class="viewTable">
                                         <div class="tableContent">
                                             <div class="item-content disable">
-                                                <div class="item-title no-border event">Race #85041854</div>
+                                                <div class="item-title no-border event">Race</div>
                                                 <div class="item-title no-border class">
                                                     <div class="class-pega class-4">Class 4</div>
                                                 </div>
-                                                <div class="item-title no-border distance">3500m</div>
-                                                <div class="item-title no-border date">03/08/2022 22:06:45</div>
+                                                <div class="item-title no-border distance">3000m</div>
+                                                <div class="item-title no-border date">{current_date}</div>
                                                 <div class="item-title no-border prizepool visoff">
                                                     <span>1550</span>
                                                     <div style={{ marginLeft: "5px" }}>
@@ -74,7 +76,7 @@ export default function Race_Finished({ scoring }) {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                             </div>
                         </div>
@@ -98,7 +100,7 @@ export default function Race_Finished({ scoring }) {
                                                         </span>
                                                     </div>
                                                     <div class="item-symbol">
-                                                        <span class="item-symbol-nums">388</span>
+                                                        {/* <span class="item-symbol-nums">388</span> */}
                                                         <span style={{ boxSizing: "border-box", display: "inline-block", overflow: "hidden", width: "24px", height: "24px", background: "none", opacity: "1", border: "0px", margin: "0px", padding: "0px", position: "relative" }}>
                                                             <img alt="" src="https://cdn.pegaxy.io/statics/play/public/v5/images/symbol/visoff.png" decoding="async" data-nimg="fixed" class="item-symbol-img" style={{ position: "absolute", inset: "0px", boxSizing: "border-box", padding: "0px", border: "none", margin: "auto", display: "block", width: "0px", height: "0px", minWidth: "100%", maxWidth: "100%", minHeight: "100%", maxHeight: "100%" }} /><noscript></noscript>
                                                         </span>
@@ -121,7 +123,7 @@ export default function Race_Finished({ scoring }) {
                                                         </span>
                                                     </div>
                                                     <div class="item-symbol">
-                                                        <span class="item-symbol-nums">930</span>
+                                                        {/* <span class="item-symbol-nums">930</span> */}
                                                         <span style={{ boxSizing: "border-box", display: "inline-block", overflow: "hidden", width: "24px", height: "24px", background: "none", opacity: "1", border: "0px", margin: "0px", padding: "0px", position: "relative" }}>
                                                             <img alt="" src="https://cdn.pegaxy.io/statics/play/public/v5/images/symbol/visoff.png" decoding="async" data-nimg="fixed" class="item-symbol-img" style={{ position: "absolute", inset: "0px", boxSizing: "border-box", padding: "0px", border: "none", margin: "auto", display: "block", width: "0px", height: "0px", minWidth: "100%", maxWidth: "100%", minHeight: "100%", maxHeight: "100%" }} />
                                                             <noscript></noscript>
@@ -145,7 +147,7 @@ export default function Race_Finished({ scoring }) {
                                                         </span>
                                                     </div>
                                                     <div class="item-symbol">
-                                                        <span class="item-symbol-nums">232</span>
+                                                        {/* <span class="item-symbol-nums">232</span> */}
                                                         <span style={{ boxSizing: "border-box", display: "inline-block", overflow: "hidden", width: "24px", height: "24px", background: "none", opacity: "1", border: "0px", margin: "0px", padding: "0px", position: "relative" }}>
                                                             <img alt="" src="https://cdn.pegaxy.io/statics/play/public/v5/images/symbol/visoff.png" decoding="async" data-nimg="fixed" class="item-symbol-img" style={{ position: "absolute", inset: "0px", boxSizing: "border-box", padding: "0px", border: "none", margin: "auto", display: "block", width: "0px", height: "0px", minWidth: "100%", maxWidth: "100%", minHeight: "100%", maxHeight: "100%" }} /><noscript></noscript>
                                                         </span>
@@ -160,7 +162,13 @@ export default function Race_Finished({ scoring }) {
                                                     </div>
                                                     <div class="btn-position button-game-content" style={{ height: "44px", paddingRight: "17.6px", paddingLeft: "17.6px" }}>
                                                         <div class="content-name">
-                                                            <span class="content-name-title" style={{ fontSize: "18px" }}>BACK TO LOBBY</span>
+                                                            <span class="content-name-title" style={{ fontSize: "18px" }}>
+                                                                
+                                                            <Link to="/Items/Racing_main" className='text-white text-decoration-none'>
+                                                            BACK TO LOBBY
+
+                                                            </Link>
+                                                               </span>
                                                         </div>
                                                     </div>
                                                     <div class="btn-position button-game-right" style={{ width: "17.6px", height: "44px" }}>
@@ -173,7 +181,12 @@ export default function Race_Finished({ scoring }) {
                                                     </div>
                                                     <div class="btn-position button-game-content" style={{ height: "44px", paddingRight: "17.6px", paddingLeft: "17.6px" }}>
                                                         <div class="content-name">
-                                                            <span class="content-name-title" style={{ fontSize: "18px" }}>NEXT MATCH</span>
+                                                            <span class="content-name-title" style={{ fontSize: "18px" }}>
+                                                            <Link to="/Items/Racing_main" className='text-white text-decoration-none'>
+                                                            NEXT MATCH
+
+                                                            </Link>
+                                                                </span>
                                                         </div>
                                                     </div>
                                                     <div class="btn-position button-game-right" style={{ width: "17.6px", height: "44px" }}>

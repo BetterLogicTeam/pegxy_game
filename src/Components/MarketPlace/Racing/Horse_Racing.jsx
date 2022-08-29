@@ -14,9 +14,9 @@ import { loadWeb3 } from '../../../apis/api';
 import { raceContractABI, raceContractAddress } from '../../../utilies/constant';
 import axios from 'axios'
 const race = horsegif
-// const race1 = "https://cdn.pegaxy.io/statics/web/race_1.webp";
-// const race2 = "https://cdn.pegaxy.io/statics/web/race_2.webp";
-// const race3 = "https://cdn.pegaxy.io/statics/web/race_3.webp";
+// const race1 = "https://cdn.Wire NFT.io/statics/web/race_1.webp";
+// const race2 = "https://cdn.Wire NFT.io/statics/web/race_2.webp";
+// const race3 = "https://cdn.Wire NFT.io/statics/web/race_3.webp";
 
 
 const race1 = first;
@@ -41,94 +41,96 @@ export default function Horse_Racing({ setModalShow, btnTxt, setScoring }) {
         sec: 0,
         milSec: 0,
     })
+    var date = new Date();
+	var current_date =  date.getDate()+"-"+(date.getMonth()+1)+"-"+ date.getFullYear();
 
     let ImageArray = [
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         {
-            Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+            Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
             margin: 0,
             poition: 0,
 
         },
         // {
-        //     Image: "https://cdn.pegaxy.io/statics/play/public/v4/images/modal/pega_run.gif",
+        //     Image: "https://cdn.Wire NFT.io/statics/play/public/v4/images/modal/pega_run.gif",
         //     margin: 0,
         //     poition: 0,
 
@@ -395,7 +397,7 @@ const getRaceIds  = async ()  =>{
                                                                 <noscript></noscript>
                                                             </div>
                                                         </div>
-                                                        <a href="Racing.html" class="item-tab-title">Live Racing</a>
+                                                        <a class="item-tab-title">Live Racing</a>
 
                                                     </div>
                                                 </li>
@@ -410,7 +412,7 @@ const getRaceIds  = async ()  =>{
                                                             </div>
                                                         </div>
 
-                                                        <a href="Racing_Finished.html" class="item-tab-title">Finished races</a>
+                                                        <span class="item-tab-title">Finished races</span>
                                                     </div>
                                                 </li>
                                             </Link>
@@ -471,20 +473,21 @@ const getRaceIds  = async ()  =>{
                                                     </div>
                                                     <div class="tableContent">
                                                         <div class="item-content disable">
-                                                            <div class="item-title event">Race #83138612</div>
-                                                            <div class="item-title location align-center">Pegaxy</div>
+                                                            <div class="item-title event">Race</div>
+                                                            <div class="item-title location align-center">Wire NFT</div>
                                                             <div class="item-title class align-center">
                                                                 <div class="class-pega class-4">Class 4</div>
                                                             </div>
-                                                            <div class="item-title distance align-center">3500m</div>
+                                                            <div class="item-title distance align-center">3000m</div>
                                                             <div class="item-title date align-center">
+                                                                { current_date}
                                                             </div>
                                                             <div class="item-title prizepool visoff">
                                                                 <span className='span_div' >
-                                                                    <img alt="" srcset="https://cdn.pegaxy.io/statics/play/public/v4/images/coin/VIS_OFF.png 1x, https://cdn.pegaxy.io/statics/play/public/v4/images/coin/VIS_OFF.png 2x" src="https://cdn.pegaxy.io/statics/play/public/v4/images/coin/VIS_OFF.png" decoding="async" data-nimg="fixed"
+                                                                    <img alt="" srcset="https://cdn.Wire NFT.io/statics/play/public/v4/images/coin/VIS_OFF.png 1x, https://cdn.Wire NFT.io/statics/play/public/v4/images/coin/VIS_OFF.png 2x" src="https://cdn.Wire NFT.io/statics/play/public/v4/images/coin/VIS_OFF.png" decoding="async" data-nimg="fixed"
                                                                         className='Image_style' />
                                                                 </span>
-                                                                <span>1550</span>
+                                                                {/* <span>1550</span> */}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -618,7 +621,7 @@ const getRaceIds  = async ()  =>{
                                                                             <div class="line-row start" style={{ width: "837.5px", minWidth: "837.5px" }}>
                                                                                 <div class="line-inner">
                                                                                     <span className='span_div' >
-                                                                                        <img alt="" srcset="https://cdn.pegaxy.io/statics/play/public/v4/images/race/flag_start.png 1x, https://cdn.pegaxy.io/statics/play/public/v4/images/race/flag_start.png 2x" src="https://cdn.pegaxy.io/statics/play/public/v4/images/race/flag_start.png" decoding="async" data-nimg="fixed" className='Image_style2' />
+                                                                                        <img alt="" srcset="https://cdn.Wire NFT.io/statics/play/public/v4/images/race/flag_start.png 1x, https://cdn.Wire NFT.io/statics/play/public/v4/images/race/flag_start.png 2x" src="https://cdn.Wire NFT.io/statics/play/public/v4/images/race/flag_start.png" decoding="async" data-nimg="fixed" className='Image_style2' />
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -655,7 +658,7 @@ const getRaceIds  = async ()  =>{
                                                                             <div class="line-row finish" style={{ width: "837.5px", minWidth: "837.5px" }}>
                                                                                 <div class="line-inner">
                                                                                     <span className='span_div'>
-                                                                                        <img alt="" srcset="https://cdn.pegaxy.io/statics/play/public/v4/images/race/flag_start.png 1x, https://cdn.pegaxy.io/statics/play/public/v4/images/race/flag_start.png 2x" src="https://cdn.pegaxy.io/statics/play/public/v4/images/race/flag_start.png" decoding="async" data-nimg="fixed" className='Image_style' />
+                                                                                        <img alt="" srcset="https://cdn.Wire NFT.io/statics/play/public/v4/images/race/flag_start.png 1x, https://cdn.Wire NFT.io/statics/play/public/v4/images/race/flag_start.png 2x" src="https://cdn.Wire NFT.io/statics/play/public/v4/images/race/flag_start.png" decoding="async" data-nimg="fixed" className='Image_style' />
                                                                                     </span>
                                                                                     <div class="line-finished">finished</div>
                                                                                 </div>
@@ -699,9 +702,9 @@ const getRaceIds  = async ()  =>{
                                                                             })
                                                                     }
 
-                                                                    {isLine && <img src="https://cdn.pegaxy.io/statics/play/public/v5/images/race/start.png" alt="" className='Line_start' />}
+                                                                    {isLine && <img src="https://cdn.Wire NFT.io/statics/play/public/v5/images/race/start.png" alt="" className='Line_start' />}
 
-                                                                    {finishLine && <img src="https://cdn.pegaxy.io/statics/play/public/v5/images/race/start.png" alt="" className='Line_last' />}
+                                                                    {finishLine && <img src="https://cdn.Wire NFT.io/statics/play/public/v5/images/race/start.png" alt="" className='Line_last' />}
 
                                                                 </div>
                                                             </div>

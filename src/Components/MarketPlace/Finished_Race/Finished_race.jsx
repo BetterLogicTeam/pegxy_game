@@ -4,6 +4,8 @@ import Navbar_nav from '../Navbar_market/Navbar_nav'
 import './Finished_race.css'
 
 export default function Finished_race({ setModalShow,btnTxt }) {
+    var date = new Date();
+	var current_date =  date.getDate()+"-"+(date.getMonth()+1)+"-"+ date.getFullYear();
     return (
         <div>
 
@@ -65,13 +67,39 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             <div class="header-title action end"><span>Action</span></div>
                                         </div>
                                         <div class="tableContent">
-                                            <div class="item-content">
+                                            {[1,2,3,4,5,6,7,8,9,10,11,12,13].map(()=>{
+                                                return(<div class="item-content">
                                                 <div class="item-title event first">Race #17921764</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">3500m</div>
+                                                <div class="item-title distance">3000m</div>
+                                                <div class="item-title date">{current_date}</div>
+                                                <div class="item-title prizepool">
+                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
+                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
+                                                        <noscript></noscript>
+                                                    </div>
+                                                    <span>175</span>
+                                                </div>
+                                                <div class="item-title action end">
+                                                    <div class="__react_component_tooltip t9baa8b22-bebc-43ae-a824-a6665fb79e92 place-top type-dark" id="copy" data-id="tooltip">
+
+
+                                                    </div>
+                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
+                                                    <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
+                                                </div>
+                                            </div>)
+                                            })}
+                                            {/* <div class="item-content">
+                                                <div class="item-title event first">Race #17921764</div>
+                                                <div class="item-title location">Wire NFT</div>
+                                                <div class="item-title class">
+                                                    <div class="class-pega">Class 1</div>
+                                                </div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -91,11 +119,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921763</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">3500m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -115,11 +143,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921762</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">4000m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -139,11 +167,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921761</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">4000m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -163,11 +191,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921760</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">4000m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -186,11 +214,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921759</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">3500m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -210,11 +238,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921758</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">4000m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -234,11 +262,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921757</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">4000m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -258,11 +286,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921756</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">3500m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -282,11 +310,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921755</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">3500m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -306,11 +334,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921754</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">3500m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -330,11 +358,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921753</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">4000m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -354,11 +382,11 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                             </div>
                                             <div class="item-content">
                                                 <div class="item-title event first">Race #17921752</div>
-                                                <div class="item-title location">Pegaxy</div>
+                                                <div class="item-title location">Wire NFT</div>
                                                 <div class="item-title class">
                                                     <div class="class-pega">Class 1</div>
                                                 </div>
-                                                <div class="item-title distance">3500m</div>
+                                                <div class="item-title distance">3000m</div>
                                                 <div class="item-title date">0</div>
                                                 <div class="item-title prizepool">
                                                     <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
@@ -375,7 +403,7 @@ export default function Finished_race({ setModalShow,btnTxt }) {
                                                     <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
                                                     <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div class="viewPagination">
                                             <div class="pagination-inner">
