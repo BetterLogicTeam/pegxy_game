@@ -282,14 +282,7 @@ export default function Horse_Racing({ setModalShow, btnTxt, setScoring }) {
                 marginInc = marginInc + 15;
                 inc = inc + 15;
                 if (inc <= 1050) {
-                    // for (let i = 0; i < 15; i++) {
-                    //     let obj = {
-                    //         name: simpleArray[i],
-                    //         margin: (Math.random() * 10) + marginInc,
-                    //         poition: ranNums[i]
-                    //     }
-                    //     arrayTest.push(obj)
-                    // }
+
                     simpleArray?.forEach((item, index)=>{
                         arrayTest.push(
                             {

@@ -41,7 +41,7 @@ export default function Race_Finished({ scoring }) {
 
     useEffect(() => {
         positionData()
-        enableRace()
+        // enableRace()
     }, [])
 
     return (
