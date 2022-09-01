@@ -329,9 +329,9 @@ export default function Horse_Racing({ setModalShow, btnTxt, setScoring }) {
             setTimeout(async () => {
                 res();
                 setIsLine(false);
-                setIsChaling(false);
-                await delay(500);
                 horseRace();
+                await delay(500);
+                setIsChaling(false);
                 await delay(1000);
                 setRaceMeter(true)
             }, timeout);
