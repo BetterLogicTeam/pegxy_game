@@ -336,7 +336,7 @@ to { transform:rotate(360deg); }
     top: 30px;
     /* border-top: 40px dashed white; */
     margin-top: 25px;
-    animation: road-moving 75s  linear;
+    animation: road-moving 90s  linear;
     animation-iteration-count: 1;
     transition: all 5s linear;
 }

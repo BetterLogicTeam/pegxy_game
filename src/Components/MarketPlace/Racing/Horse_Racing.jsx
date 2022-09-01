@@ -280,24 +280,33 @@ export default function Horse_Racing({ setModalShow, btnTxt, setScoring }) {
                 marginInc = marginInc + 15;
                 inc = inc + 15;
                 if (inc <= 1050) {
-                    for (let i = 0; i < 15; i++) {
-                        let obj = {
-                            name: simpleArray[i],
+                    // for (let i = 0; i < 15; i++) {
+                    //     let obj = {
+                    //         name: simpleArray[i],
+                    //         margin: (Math.random() * 10) + marginInc,
+                    //         poition: ranNums[i]
+                    //     }
+                    //     arrayTest.push(obj)
+                    // }
+                    simpleArray?.forEach((item, index)=>{
+                        arrayTest.push(
+                            {
+                             name: item,
                             margin: (Math.random() * 10) + marginInc,
-                            poition: ranNums[i]
-                        }
-                        arrayTest.push(obj)
-                    }
+                            poition: ranNums[index]
+                                    }
+                        )
+                    })
                     setRaceArray(arrayTest)
-                    setScoring(arrayTest)
+                    setScoring(arrayTest);
                 } else {
-    
+
                     setFinishLine(true)
                     clearInterval(id)
                     await delay(2000)
                     navigate("/Items/Race_Finished")
                 }
-            }, 1000);
+            }, 1300);
             timeIntervel = setInterval(() => {
                 if (inc <= 1000) {
                     n = n + 1;
@@ -650,6 +659,11 @@ const getRaceIds  = async ()  =>{
                                                                             <div class="line-row" title="3000" style={{ width: "837.5px", minWidth: "837.5px" }}>
                                                                                 <div class="line-inner">
                                                                                     <span class="line-location">3000m</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="line-row" title="3000" style={{ width: "837.5px", minWidth: "837.5px" }}>
+                                                                                <div class="line-inner">
+                                                                                    <span class="line-location">3500m</span>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="line-row finish" style={{ width: "837.5px", minWidth: "837.5px" }}>
