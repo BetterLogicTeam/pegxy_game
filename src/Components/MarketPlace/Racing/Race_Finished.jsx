@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-
+import { raceContractABI, raceContractAddress } from '../../../utilies/constant';
 export default function Race_Finished({ scoring }) {
     const [FirstPosition, setFirstPosition] = useState()
     const [SecondPositopn, setSecondPositopn] = useState()
@@ -14,7 +14,25 @@ export default function Race_Finished({ scoring }) {
     const enableRace = async () => {
         try {
             console.log("scoring", scoring);
-            await axios.get("https://pegxy-api-server.herokuapp.com/enableRace");
+            let first = "";
+            let second = "";
+            let third = "";
+            let array_length = scoring.length;
+            const web3 = window.web3;
+            let contractOf= new web3.eth.Contract(raceContractABI,raceContractAddress);
+            for (let index = 0; index < array_length; index++) {
+                let element = scoring[index];
+                if (element.poition == 1) {
+                    first = element.name;
+                } else if (element.poition == 2) {
+                    second = element.name;
+                } else if (element.poition == 3) {
+                    third = element.name;
+                }
+            }
+            // await axios.post("https://pegxy-api-server.herokuapp.com/enableRace",{first, second, third});
+            await axios.post("http://localhost:8000/enableRace",{first, second, third});
+
         } catch (error) {
             console.error("error while enable race", error);
         }

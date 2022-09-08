@@ -19,8 +19,10 @@ export default function Racing_main({ setModalShow, btnTxt }) {
         try {
             const web3 = window.web3
             let Data_Array = []
-            let contractOf_Own = new web3.eth.Contract(MintingContract_ABI, MintingContractAddress)
-            let WalletOwnOf = await contractOf_Own.methods.walletOfOwner(acc).call();
+            let contractOf_Own = new web3.eth.Contract(MintingContract_ABI, MintingContractAddress);
+            let contractOf= new web3.eth.Contract(raceContractABI,raceContractAddress);
+            let WalletOwnOf = await contractOf.methods.stakedIds(acc).call();
+            console.log("WalletOwnOf", WalletOwnOf);
             let wallet_Length = WalletOwnOf.length
             console.log("walletOfOwner", wallet_Length);
             let Wallet_URI
@@ -44,14 +46,29 @@ const startRace=async(tokenid)=>{
         const web3=  window.web3;
         console.log("TokenID",tokenid);
 
-        let contractOf= new web3.eth.Contract(raceContractABI,raceContractAddress)
-        let createBid=await contractOf.methods.createBet(tokenid).send({
-            
-             from: acc
-        })
-        nivigating("/Items/horse_racing")
-        console.log("createBid",createBid);
-        toast("Transtion Successfull")
+        let contractOf= new web3.eth.Contract(raceContractABI,raceContractAddress);
+        let nftContract = new web3.eth.Contract(MintingContract_ABI, MintingContractAddress);
+        const itemNo = await contractOf.methods.itemNo(MintingContractAddress, tokenid).call()
+        const userInfo = await contractOf.methods.UserInfo(itemNo).call();
+        if(userInfo.activate) {
+            if(parseFloat(web3.utils.fromWei(userInfo.Getreward)) < parseFloat(web3.utils.fromWei(userInfo.pkgNotoID))){
+                if(parseInt(userInfo.perDay) <=12){
+
+                        let createBid=await contractOf.methods.createBet(tokenid, MintingContractAddress).send({
+                            from: acc
+                       })
+                       nivigating("/Items/horse_racing")
+                       console.log("createBid",createBid);
+                       toast("Transtion Successfull")
+                }else{
+                    toast.info(`${tokenid} per day race is completed`);
+                }
+            }else{
+                toast.info(`${tokenid} reward is reached to ${web3.utils.fromWei(userInfo.pkgNotoID)}, so boos your id`);
+            }
+        }else{
+            toast.info("Your Id is not activate")
+        }
 
 
 

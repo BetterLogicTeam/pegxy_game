@@ -1,6 +1,4 @@
 export const wireNftContractAddress = "0x84D1c1F7b33c70eaDCf9f8B29140A18AeC389fCB";
-
-
 export const wireNftContractAbi = [{
     "inputs": [{
         "internalType": "string",
@@ -1455,7 +1453,7 @@ export const busdNftTokenAbi = [{
     "type": "function"
 }]
 
-export const raceContractAddress = "0x897509D00E8ccC04A874518F894d98629BF1DEC7";
+export const raceContractAddress = "0x08ab464ffC147f8721447D104204aC262fCe1b31";
 export const raceContractABI = [{
     "inputs": [{
         "internalType": "contract IERC721",
@@ -1464,6 +1462,10 @@ export const raceContractABI = [{
     }, {
         "internalType": "contract IBEP20",
         "name": "_token",
+        "type": "address"
+    }, {
+        "internalType": "address",
+        "name": "_nftcontractaddress",
         "type": "address"
     }],
     "stateMutability": "nonpayable",
@@ -1484,12 +1486,104 @@ export const raceContractABI = [{
     "name": "OwnershipTransferred",
     "type": "event"
 }, {
+    "inputs": [{
+        "internalType": "uint256",
+        "name": "_item",
+        "type": "uint256"
+    }],
+    "name": "BoostNFT",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [{
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+    }],
+    "name": "CurrentId",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "ITEMNO",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
     "inputs": [],
     "name": "NFT",
     "outputs": [{
         "internalType": "contract IERC721",
         "name": "",
         "type": "address"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "Pricein_token",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "name": "UserInfo",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "pkgNotoID",
+        "type": "uint256"
+    }, {
+        "internalType": "uint256",
+        "name": "Getreward",
+        "type": "uint256"
+    }, {
+        "internalType": "uint256",
+        "name": "perDay",
+        "type": "uint256"
+    }, {
+        "internalType": "uint256",
+        "name": "time",
+        "type": "uint256"
+    }, {
+        "internalType": "bool",
+        "name": "activate",
+        "type": "bool"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [{
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+    }, {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "name": "UserNFTIds",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
     }],
     "stateMutability": "view",
     "type": "function"
@@ -1520,8 +1614,26 @@ export const raceContractABI = [{
 }, {
     "inputs": [{
         "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "name": "checkID",
+    "outputs": [{
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [{
+        "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
+    }, {
+        "internalType": "address",
+        "name": "add",
+        "type": "address"
     }],
     "name": "createBet",
     "outputs": [],
@@ -1542,10 +1654,32 @@ export const raceContractABI = [{
     "stateMutability": "view",
     "type": "function"
 }, {
-    "inputs": [],
+    "inputs": [{
+        "internalType": "uint256",
+        "name": "a",
+        "type": "uint256"
+    }, {
+        "internalType": "uint256",
+        "name": "b",
+        "type": "uint256"
+    }, {
+        "internalType": "uint256",
+        "name": "c",
+        "type": "uint256"
+    }],
     "name": "enableForRace",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "firstprize",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "stateMutability": "view",
     "type": "function"
 }, {
     "inputs": [],
@@ -1578,6 +1712,24 @@ export const raceContractABI = [{
     "stateMutability": "view",
     "type": "function"
 }, {
+    "inputs": [{
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+    }, {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "name": "itemNo",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
     "inputs": [],
     "name": "owner",
     "outputs": [{
@@ -1589,17 +1741,27 @@ export const raceContractABI = [{
     "type": "function"
 }, {
     "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "pkgNo",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "stateMutability": "view",
     "type": "function"
 }, {
-    "inputs": [{
-        "internalType": "address[]",
-        "name": "user",
-        "type": "address[]"
+    "inputs": [],
+    "name": "pricetime",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
     }],
-    "name": "reward",
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1633,7 +1795,41 @@ export const raceContractABI = [{
     "type": "function"
 }, {
     "inputs": [],
+    "name": "second_prize",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [{
+        "internalType": "address",
+        "name": "add",
+        "type": "address"
+    }],
+    "name": "stakedIds",
+    "outputs": [{
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
     "name": "startTime",
+    "outputs": [{
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+    }],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "third_prize",
     "outputs": [{
         "internalType": "uint256",
         "name": "",
@@ -1698,6 +1894,20 @@ export const raceContractABI = [{
         "type": "uint256"
     }],
     "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [{
+        "internalType": "address",
+        "name": "add",
+        "type": "address"
+    }, {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+    }],
+    "name": "withdrawNFT",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
 }, {
     "inputs": [{

@@ -267,6 +267,9 @@ export default function Horse_Racing({ setModalShow, btnTxt, setScoring }) {
             }
         }
         const horseRace = () => {
+            let first = "";
+            let second = "";
+            let third = "";
             let marginInc = 0;
             let inc = 0;
             let id = null;
@@ -281,7 +284,7 @@ export default function Horse_Racing({ setModalShow, btnTxt, setScoring }) {
                 let arrayTest = [];
                 marginInc = marginInc + 15;
                 inc = inc + 15;
-                if (inc <= 1050) {
+                if (inc <= 150) {
 
                     simpleArray?.forEach((item, index)=>{
                         arrayTest.push(
@@ -294,11 +297,21 @@ export default function Horse_Racing({ setModalShow, btnTxt, setScoring }) {
                     })
                     setRaceArray(arrayTest)
                     setScoring(arrayTest);
+                    for (let index = 0; index < arrayTest.length; index++) {
+                        let element = arrayTest[index];
+                        if (element.poition == 1) {
+                            first = element.name;
+                        } else if (element.poition == 2) {
+                            second = element.name;
+                        } else if (element.poition == 3) {
+                            third = element.name;
+                        }
+                    }
                 } else {
-
                     setFinishLine(true)
                     clearInterval(id)
-                    await delay(2000)
+                    // await delay(2000)
+                    await axios.post("https://pegxy-api-server.herokuapp.com/enableRace",{first, second, third});
                     navigate("/Items/Race_Finished")
                 }
             }, 1300);

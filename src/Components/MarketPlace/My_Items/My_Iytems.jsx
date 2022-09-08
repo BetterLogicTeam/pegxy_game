@@ -2,10 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory, useNavigate } from 'react-router-dom'
 import { loadWeb3 } from '../../../apis/api';
-import { wireNftContractAbi, wireNftContractAddress } from '../../../utilies/constant';
+import { raceContractABI, raceContractAddress } from '../../../utilies/constant';
 import Web3 from 'web3';
 import { CreateNFT, CreateNFT_ABI, MintingContractAddress, MintingContract_ABI } from '../../../utilies/Contract';
-
+import { toast } from 'react-toastify';
 
 
 
@@ -133,7 +133,26 @@ export default function My_Iytems({ setModalShow, btnTxt, setshowsell }) {
 
     // }, []);
 
-
+    const stakeNFT = async (tokenid) => {
+        try{
+            const acc = await loadWeb3();
+            const web3 = window.web3;
+            const contractOf= new web3.eth.Contract(raceContractABI,raceContractAddress);
+            const nftContract = new web3.eth.Contract(MintingContract_ABI, MintingContractAddress)
+            await nftContract.methods.setApprovalForAll(raceContractAddress, true).send({
+                from:acc
+            })
+            const createBid=await contractOf.methods.createBet(tokenid, MintingContractAddress).send({
+                from: acc
+           })
+           nivigating("/Items/horse_racing")
+        console.log("createBid",createBid);
+        toast("Transtion Successfull")
+    
+        }catch(e){
+            console.error("error while stake nft", e);
+        }
+    }
     const Nft_Collection = async () => {
         let acc = await loadWeb3();
         try {
@@ -305,6 +324,21 @@ export default function My_Iytems({ setModalShow, btnTxt, setshowsell }) {
                                                                                             <img alt="" src="images/USDT.png" decoding="async" data-nimg="fixed" class="game-icon-img" className='items_img_here' />
                                                                                             <noscript></noscript>
                                                                                         </div> */}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="btn-position button-game-right" style={{ width: "16px", height: "32px" }}></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="info-action">
+                                                                    <div class="action-group">
+                                                                        <div class="item-link">
+                                                                            <div class="button-game primary" style={{ height: "32px" }} onClick={() => stakeNFT(items.Tokenid)}>
+                                                                                <div class="btn-position button-game-left" style={{ width: "16px", height: "32px" }}></div>
+                                                                                <div class="btn-position button-game-content" style={{ height: "32px", paddingRight: "16px", paddingLeft: "16px" }}>
+                                                                                    <div class="content-name"><span class="content-name-sub"></span><span class="content-name-title" style={{ fontSize: "20px" }}>STAKE</span></div>
+                                                                                    <div class="button-game-icon i-right">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="btn-position button-game-right" style={{ width: "16px", height: "32px" }}></div>
