@@ -284,7 +284,7 @@ export default function Horse_Racing({ setModalShow, btnTxt, setScoring }) {
                 let arrayTest = [];
                 marginInc = marginInc + 15;
                 inc = inc + 15;
-                if (inc <= 150) {
+                if (inc <= 1050) {
 
                     simpleArray?.forEach((item, index)=>{
                         arrayTest.push(
