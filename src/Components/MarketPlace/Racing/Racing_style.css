@@ -67,3 +67,32 @@
     border-right-style: solid;
     border-right-width: 6px;
     }
+
+    .firstdiv{
+        display: flex;
+        justify-content: space-between !important;
+    }
+
+    /* .modal-body {
+        position: relative;
+        flex: 1 1 auto;
+        padding: 1.5rem 2rem;
+        display: flex;
+        flex-direction: row !important;
+       
+        justify-content: space-between !important;
+        width: 100%;
+        height: 100%;
+    } */
+
+    .modal-body {
+        position: relative;
+        flex: 1 1 auto;
+        padding: 1.5rem 2rem;
+        display: block !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }

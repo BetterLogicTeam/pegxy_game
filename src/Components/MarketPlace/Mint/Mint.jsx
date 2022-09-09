@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Mint.css'
 import { getWallet, NftData } from '../../../redux/redux/actions/actions'
-
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from "react-toastify";
 import { loadWeb3 } from '../../../apis/api';
 import { busdNftTokenAbi, busdNftTokenAddress, wireNftContractAbi, wireNftContractAddress, wireTokenAbi, wireTokenAddress } from '../../../utilies/constant';
@@ -24,10 +24,9 @@ export default function Mint({ setModalShow, btnTxt }) {
     const [formInput, updateFormInput] = useState({ price: '0', name: 'NFT Name', description: '' })
     const [nftImage, setNftImage] = useState("")
     let [getInpiut, setGetInput] = useState({ first: "", second: "", third: "", image: "" })
-    let [name, setName] = useState("");
-    let [description, setDescription] = useState("");
-    let [image, setImage] = useState("");
-    let [myData, setMydata] = useState(null);
+    const [copyTest, setcopyTest] = useState(false)
+    const [RefID, setRefID] = useState()
+
     let [addressacc, setaddressacc] = useState();
     let [isSpinner, setIsSpinner] = useState(false)
     let [myUrl, setMyUrl] = useState()
@@ -40,8 +39,10 @@ export default function Mint({ setModalShow, btnTxt }) {
     let [mintPriceBUSD, setMintPriceBUSD] = useState(0);
     let [mintPriceWire, setmintPriceWire] = useState(0);
     let [btnOne, setButtonOne] = useState("Mint With BNB");
-    let [btnTwo, setButtonTwo] = useState("Mint With JTO");
+    let [btnTwo, setButtonTwo] = useState("Mint With Wire");
     let [btnThree, setButtonThree] = useState("Mint With Busd")
+
+
     const increaseValue = () => {
         if (value < 5) {
             setValue(++value)
@@ -91,37 +92,37 @@ export default function Mint({ setModalShow, btnTxt }) {
 
 
                 // if (llisted_check == 'true') {
-                    if (parseInt(ttlSupply) < parseInt(maxSupply)) {
-                        if (paused == true) {
-                            if (value < parseInt(maxLimitprTransaction)) {
-                                console.log("Minting Value= ", value);
-                                console.log("Minting totalMintingPriceBNB= ", totalMintingPriceBNB);
+                if (parseInt(ttlSupply) < parseInt(maxSupply)) {
+                    if (paused == true) {
+                        if (value < parseInt(maxLimitprTransaction)) {
+                            console.log("Minting Value= ", value);
+                            console.log("Minting totalMintingPriceBNB= ", totalMintingPriceBNB);
 
-                                totalMintingPriceBNB = web3.utils.toWei(totalMintingPriceBNB.toString())
-                                await nftContractOf.methods.mint_with_bnb(value).send({
-                                    from: acc,
-                                    value: totalMintingPriceBNB.toString()
+                            totalMintingPriceBNB = web3.utils.toWei(totalMintingPriceBNB.toString())
+                            await nftContractOf.methods.mint_with_bnb(value).send({
+                                from: acc,
+                                value: totalMintingPriceBNB.toString()
 
-                                })
-                                toast.success("Transaction Confirmed")
-                                setButtonOne("Mint With BNB")
+                            })
+                            toast.success("Transaction Confirmed")
+                            setButtonOne("Mint With BNB")
 
-                            } else {
-                                toast.error("No of Minting is Greater than maximum limit Per Transaction")
-                                setButtonOne("Mint With BNB")
-
-                            }
                         } else {
-                            toast.error("Paused is False")
+                            toast.error("No of Minting is Greater than maximum limit Per Transaction")
                             setButtonOne("Mint With BNB")
 
                         }
-
                     } else {
-                        toast.error("Max Supply is Greater than total Supply")
+                        toast.error("Paused is False")
                         setButtonOne("Mint With BNB")
 
                     }
+
+                } else {
+                    toast.error("Max Supply is Greater than total Supply")
+                    setButtonOne("Mint With BNB")
+
+                }
                 // }
                 // else {
                 //     let BusdPrice = await nftContractOf.methods.WhitelistMintingPricein_MATIC().call();
@@ -171,92 +172,93 @@ export default function Mint({ setModalShow, btnTxt }) {
                 let ttlSupply = await nftContractOf.methods.totalSupply().call();
                 let paused = await nftContractOf.methods.paused().call();
                 let maxLimitprTransaction = await nftContractOf.methods.MaxLimitPerTransaction().call();
-                let mintingWirePrice = await nftContractOf.methods.MinitngPricein_MMX().call()
+                let mintingWirePrice = await nftContractOf.methods.MinitngPricein_wire().call()
                 mintingWirePrice = web3.utils.fromWei(mintingWirePrice);
                 mintingWirePrice = parseFloat(mintingWirePrice)
                 setmintPriceWire(mintingWirePrice);
                 let totalMintingPriceWire = value * mintingWirePrice
                 console.log("maxSupply", maxSupply);
-                console.log("ttlSupply", maxLimitprTransaction);
-
-                console.log("mintingWirePrice", mintingWirePrice);
-                let llisted_check = await nftContractOf.methods.iswhitelist(acc).call()
-                console.log("iswhitelist", llisted_check);
 
 
-                if (llisted_check == 'true') {
+                // let llisted_check = await nftContractOf.methods.iswhitelist(acc).call()
+                // console.log("iswhitelist", llisted_check);
 
-                    if (parseInt(ttlSupply) < parseInt(maxSupply)) {
-                        if (paused == false) {
-                            if (value < parseInt(maxLimitprTransaction)) {
-                                if (parseFloat(userBusdBalance) >= totalMintingPriceWire) {
-                                    console.log("Minting Value= ", value);
-                                    console.log("Minting totalMintingPriceWire= ", totalMintingPriceWire);
 
-                                    totalMintingPriceWire = web3.utils.toWei(totalMintingPriceWire.toString())
-                                    await wireContractOf.methods.approve(wireNftContractAddress, totalMintingPriceWire).send({
-                                        from: acc
-                                    })
-                                    toast.success("Transaction Confirmed")
-                                    setButtonTwo("Please Wait for Second Confirmation")
-                                    await nftContractOf.methods.mint_with_MMX(value, totalMintingPriceWire.toString()).send({
-                                        from: acc,
-                                    })
-                                    toast.success("Transaction Succefful")
-                                    setButtonTwo("Mint With JTO")
+                // if (llisted_check == 'true') {
 
-                                } else {
-                                    toast.error("Out Of Balance")
-                                    setButtonTwo("Mint With JTO")
+                if (parseInt(ttlSupply) < parseInt(maxSupply)) {
+                    console.log("mintingWirePrice", paused);
+                    if (paused !== false) {
+                        if (value < parseInt(maxLimitprTransaction)) {
+                            if (parseFloat(userBusdBalance) >= totalMintingPriceWire) {
 
-                                }
+
+                                totalMintingPriceWire = web3.utils.toWei(totalMintingPriceWire.toString())
+                                console.log("totalMintingPriceWire", totalMintingPriceWire);
+
+                                await wireContractOf.methods.approve(wireNftContractAddress, totalMintingPriceWire).send({
+                                    from: acc
+                                })
+                                toast.success("Transaction Confirmed")
+                                setButtonTwo("Please Wait for Second Confirmation")
+                                await nftContractOf.methods.mint_with_wire(value, totalMintingPriceWire.toString(), RefID).send({
+                                    from: acc,
+                                })
+                                toast.success("Transaction Successful")
+                                setButtonTwo("Mint With Wire")
 
                             } else {
-                                toast.error("No of Minting is Greater than maximum limit Per Transaction")
-                                setButtonTwo("Mint With JTO")
+                                toast.error("Out Of Balance")
+                                setButtonTwo("Mint With Wire")
 
                             }
+
                         } else {
-                            toast.error("Paused is False")
-                            setButtonTwo("Mint With JTO")
+                            toast.error("No of Minting is Greater than maximum limit Per Transaction")
+                            setButtonTwo("Mint With Wire")
 
                         }
-
                     } else {
-                        toast.error("Max Supply is Greater than total Supply")
-                        setButtonTwo("Mint With JTO")
+                        toast.error("Paused is False")
+                        setButtonTwo("Mint With Wire")
 
                     }
 
-                }
-                else {
-
-                    let BusdPrice = await nftContractOf.methods.WhitelistMinitngPricein_MMX().call();
-                    totalMintingPriceWire = web3.utils.toWei(totalMintingPriceWire.toString())
-                    await wireContractOf.methods.approve(wireNftContractAddress, totalMintingPriceWire).send({
-                        from: acc
-                    })
-
-                    let a = web3.utils.fromWei(BusdPrice);
-                    a = parseFloat(a)
-                    let b = a * value;
-                    let c = web3.utils.toWei(b.toString());
-
-                    await nftContractOf.methods.mint_with_MMX(value, c).send({
-                        from: acc,
-                    })
-
-
-                    setButtonTwo("Mint With JTO")
-
+                } else {
+                    toast.error("Max Supply is Greater than total Supply")
+                    setButtonTwo("Mint With Wire")
 
                 }
+
+                // }
+                // else {
+
+                //     let BusdPrice = await nftContractOf.methods.WhitelistMinitngPricein_MMX().call();
+                //     totalMintingPriceWire = web3.utils.toWei(totalMintingPriceWire.toString())
+                //     await wireContractOf.methods.approve(wireNftContractAddress, totalMintingPriceWire).send({
+                //         from: acc
+                //     })
+
+                //     let a = web3.utils.fromWei(BusdPrice);
+                //     a = parseFloat(a)
+                //     let b = a * value;
+                //     let c = web3.utils.toWei(b.toString());
+
+                //     await nftContractOf.methods.mint_with_MMX(value, c).send({
+                //         from: acc,
+                //     })
+
+
+                //     setButtonTwo("Mint With Wire")
+
+
+                // }
 
 
             } catch (e) {
                 console.log("Error while minting ", e)
                 toast.error("Transaction failed")
-                setButtonTwo("Mint With JTO")
+                setButtonTwo("Mint With Wire")
 
             }
 
@@ -385,23 +387,23 @@ export default function Mint({ setModalShow, btnTxt }) {
         } else {
 
             try {
-                console.log("mintFor BUSD");
+
                 const web3 = window.web3;
                 let nftContractOf = new web3.eth.Contract(wireNftContractAbi, wireNftContractAddress);
-                let mintingBusdPrice = await nftContractOf.methods.MinitngPricein_BUSD().call()
-                mintingBusdPrice = web3.utils.fromWei(mintingBusdPrice);
-                mintingBusdPrice = parseFloat(mintingBusdPrice)
-                setMintPriceBUSD(mintingBusdPrice)
+                // let mintingBusdPrice = await nftContractOf.methods.MinitngPricein_BUSD().call()
+                // mintingBusdPrice = web3.utils.fromWei(mintingBusdPrice);
+                // mintingBusdPrice = parseFloat(mintingBusdPrice)
+                // setMintPriceBUSD(mintingBusdPrice)
 
                 let mintingWirePrice = await nftContractOf.methods.MinitngPricein_wire().call()
                 mintingWirePrice = web3.utils.fromWei(mintingWirePrice);
                 mintingWirePrice = parseFloat(mintingWirePrice)
                 setmintPriceWire(mintingWirePrice);
 
-                let mintingbnbPrice = await nftContractOf.methods.MinitngPricein_BNB().call()
-                mintingbnbPrice = web3.utils.fromWei(mintingbnbPrice);
-                mintingbnbPrice = parseFloat(mintingbnbPrice)
-                setMintPriceBnb(mintingbnbPrice)
+                // let mintingbnbPrice = await nftContractOf.methods.MinitngPricein_BNB().call()
+                // mintingbnbPrice = web3.utils.fromWei(mintingbnbPrice);
+                // mintingbnbPrice = parseFloat(mintingbnbPrice)
+                // setMintPriceBnb(mintingbnbPrice)
             } catch (e) {
                 console.log("Error while getting minting Price");
             }
@@ -409,12 +411,52 @@ export default function Mint({ setModalShow, btnTxt }) {
     }
 
 
+
+    const ReferralAddress = async () => {
+        let acc = await loadWeb3();
+
+        const web3 = window.web3;
+        
+        try {
+
+            let nftContractOf = new web3.eth.Contract(wireNftContractAbi, wireNftContractAddress);
+           
+            let userBusdBalance = await nftContractOf.methods.users(acc).call();
+            userBusdBalance=userBusdBalance.deposit_time
+    console.log("userBusdBalance",userBusdBalance);
+          let URL = window.location.href;
+          if (URL.includes("referrallink")) {
+            let pathArray = URL.split('=');
+            console.log("pathArray");
+            setRefID(pathArray[pathArray.length - 1])
+           
+    
+    
+          } else {
+            if(userBusdBalance==0){
+
+                setRefID("0x8c1c6a683e57d5927B6DEf7B951f58c92fC5e146")
+            }else{
+                setRefID(acc)
+
+            }
+    
+          }
+    
+    
+    
+        } catch (e) {
+          console.log("Erroe Whille Referral Fuction Call", e);
+        }
+      }
+
     useEffect(() => {
         setInterval(() => {
             getMydata();
 
         }, 10000);
         getMydata();
+        ReferralAddress()
     }, [])
 
 
@@ -627,11 +669,17 @@ export default function Mint({ setModalShow, btnTxt }) {
                                                             </div>
                                                             <div class="btnallhere">
 
-                                                                <div className='d-flex justify-content-center align-items-center mt-lg-5 mt-3'>
+                                                                {/* <div className='d-flex justify-content-center align-items-center mt-lg-5 mt-3'>
                                                                     <button
                                                                         onClick={() => myMintBNB()} 
                                                                         className='btn mintbtn firstbtn ms-4 '>{btnOne}</button>
                                                                     <p className='stakepageP text-white ms-4 mt-2 fs-5 fw-3'>Price : {mintPriceBnb} BNB</p>
+                                                                </div> */}
+                                                                <div className='d-flex justify-content-center align-items-center mt-lg-5 mt-3'>
+                                                                    <button
+                                                                        onClick={() => myMintWire()}
+                                                                        className='btn mintbtn firstbtn ms-4 '>{btnTwo}</button>
+                                                                    <p className='stakepageP text-white ms-4 mt-2 fs-5 fw-3'>Price : {mintPriceWire} Wire</p>
                                                                 </div>
                                                                 {/* <div className='d-flex justify-content-center align-items-center mt-lg-5 mt-3'>
                                                                             <button onClick={() => myMintWire()} className='btn mintbtn '>{btnTwo}</button>
@@ -646,6 +694,21 @@ export default function Mint({ setModalShow, btnTxt }) {
 
                                                             </div>
 
+                                                            <div className="main_div_reflink">
+                                                            {copyTest ? <span style={{ color: 'red',marginLeft:'1rem' }}>Copied.</span> : null}
+
+                                                                <input type="text" className='refdata' value={`http://localhost:3001/Items/Mint?referrallink=${RefID}`} />
+                                                                <CopyToClipboard text={`http://localhost:3001/Items/Mint?referrallink=${RefID}`}
+                                                                    onCopy={() => setcopyTest(true)}  >
+                                                                    <div className='main_class_copy'>
+
+                                                                        <button
+
+                                                                            className='btn mintbtn copybtn ms-4 '>Copy</button>
+                                                                    </div>
+                                                                </CopyToClipboard>
+
+                                                            </div>
 
 
                                                         </div>
@@ -653,91 +716,7 @@ export default function Mint({ setModalShow, btnTxt }) {
 
 
 
-                                                        {/* <div className="mint-content">
-                                                                <div className="mint-item">
-                                                                    <div className="quantity">
 
-                                                                        <div class="form-create-item">
-                                                                           
-                                                                            <h4 class="title-create-item">Upload file</h4>
-                                                                            <label class="uploadFile">
-                                                                                <span class="filename text-white">{nftImage.name? nftImage.name : ("PNG, JPG, GIF, WEBP or MP4.")}</span>
-                                                                                <input type="file" class="inputfile form-control" name="fileInput" id="fileInput"
-                                                                                    onChange={(e) => {
-                                                                                        e.preventDefault();
-                                                                                        setNftImage(e.target.files[0])
-
-                                                                                    }}
-                                                                                />
-                                                                            </label>
-                                                                           
-                                                                            <div class="flat-tabs tab-create-item">
-   
-                                                                                <div class="content-tab">
-                                                                                    <div class="content-inner" >
-                                                                                        <form action="#">
-                                                                                            <h4 class="title-create-item">Price</h4>
-                                                                                            <input type="text" placeholder="Enter price for one item (ETH)"
-                                                                                                onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
-                                                                                            />
-
-                                                                                            <h4 class="title-create-item">Title</h4>
-                                                                                            <input type="text" placeholder="Item Name" name="metadataName" id="metadataName"
-                                                                                                onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
-                                                                                            />
-
-                                                                                            <h4 class="title-create-item">Description</h4>
-                                                                                            <textarea placeholder="e.g. “This is very limited item”" name="metadataDescription" id="metadataDescription" rows="5"  cols="44" className=' text_area'
-                                                                                                onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
-                                                                                            ></textarea>
-                                                                                       
-                                                                                            {
-                                                                                                fileUrl && (
-                                                                                                    <img className="rounded mt-4" width="350" src={fileUrl} alt='' />
-                                                                                                )
-                                                                                            }
-
-                                                                                            <button className="mt-3 btn_create" onClick={IpfsStorage}>
-                                                                                                Create NFT
-                                                                                            </button>
-
-
-                                                                                            
-                                                                                        </form>
-                                                                                    </div>
-                                                                                    <div class="content-inner" style={{ display: "none" }}>
-                                                                                        <form action="#">
-                                                                                            <h4 class="title-create-item">Minimum bid</h4>
-                                                                                            <input type="text" placeholder="enter minimum bid" />
-                                                                                            <div class="row">
-                                                                                                <div class="col-md-6">
-                                                                                                    <h5 class="title-create-item">Starting date</h5>
-                                                                                                    <input type="date" name="bid_starting_date" id="bid_starting_date" class="form-control" min="1997-01-01" />
-                                                                                                </div>
-                                                                                                <div class="col-md-6">
-                                                                                                    <h4 class="title-create-item">Expiration date</h4>
-                                                                                                    <input type="date" name="bid_expiration_date" id="bid_expiration_date" class="form-control" />
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <h4 class="title-create-item">Title</h4>
-                                                                                            <input type="text" placeholder="Item Name" />
-
-                                                                                            <h4 class="title-create-item">Description</h4>
-                                                                                            <textarea placeholder="e.g. “This is very limited item”" onChange={(e) => setDescription(e.target.value)}></textarea>
-                                                                                        </form>
-                                                                                    </div>
-
-
-
-                                                                                   
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> */}
-                                                        {/* </div> */}
 
                                                     </div>
                                                 </div>

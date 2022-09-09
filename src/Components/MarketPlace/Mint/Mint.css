@@ -774,3 +774,24 @@ h4 {
         margin-left: -0rem !important;
     }
 }
+
+
+.refdata{
+    background-color: transparent !important;
+    border-radius: 25px;
+    width: 75% !important;
+    margin-top: 0rem !important;
+    color: #fff !important;
+}
+.main_div_reflink{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    
+    margin-top: 11rem !important;
+
+}
+.copybtn{
+    width: 8rem !important;
+}

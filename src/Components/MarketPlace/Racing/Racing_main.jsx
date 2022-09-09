@@ -3,8 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import { loadWeb3 } from '../../../apis/api';
 import { raceContractABI, raceContractAddress } from '../../../utilies/constant';
-import { MintingContractAddress, MintingContract_ABI } from '../../../utilies/Contract';
+import { wireNftContractAddress, wireNftContractAbi } from '../../../utilies/constant';
+import Modal from 'react-bootstrap/Modal'
 import './Racing_style.css'
+
 
 
 export default function Racing_main({ setModalShow, btnTxt }) {
@@ -12,14 +14,36 @@ export default function Racing_main({ setModalShow, btnTxt }) {
     
     let [Array_NFT, setArray_NFT] = useState([])
     const [tokenId, settokenId] = useState()
+    const [Auctionmodelopen, setAuctionmodelopen] = useState(false);
+    const [idDetail, setIdDetail] = useState({
+        id:"",
+        racePerDay:"",
+        reward:""
+    })
 
+    const showIdDetail = async (tokenid)=>{
+try {
+    const web3 = window.web3;
+    let contractOf= new web3.eth.Contract(raceContractABI,raceContractAddress);
+    const itemNo = await contractOf.methods.itemNo(wireNftContractAddress, tokenid).call()
+    const userInfo = await contractOf.methods.UserInfo(itemNo).call();
+    setIdDetail({
+        id:tokenid,
+        racePerDay:userInfo.perDay,
+        reward:userInfo.Getreward
+    })
+    setAuctionmodelopen(true)
+} catch (error) {
+        console.error("error while show id detail");
+}
+    }
     let nivigating = useNavigate()
     const Nft_Collection = async () => {
         let acc = await loadWeb3();
         try {
             const web3 = window.web3
             let Data_Array = []
-            let contractOf_Own = new web3.eth.Contract(MintingContract_ABI, MintingContractAddress);
+            let contractOf_Own = new web3.eth.Contract(wireNftContractAbi, wireNftContractAddress);
             let contractOf= new web3.eth.Contract(raceContractABI,raceContractAddress);
             let WalletOwnOf = await contractOf.methods.stakedIds(acc).call();
             console.log("WalletOwnOf", WalletOwnOf);
@@ -46,15 +70,15 @@ const startRace=async(tokenid)=>{
         const web3=  window.web3;
         console.log("TokenID",tokenid);
 
+        let nftContract = new web3.eth.Contract(wireNftContractAbi, wireNftContractAddress);
         let contractOf= new web3.eth.Contract(raceContractABI,raceContractAddress);
-        let nftContract = new web3.eth.Contract(MintingContract_ABI, MintingContractAddress);
-        const itemNo = await contractOf.methods.itemNo(MintingContractAddress, tokenid).call()
+        const itemNo = await contractOf.methods.itemNo(wireNftContractAddress, tokenid).call()
         const userInfo = await contractOf.methods.UserInfo(itemNo).call();
         if(userInfo.activate) {
             if(parseFloat(web3.utils.fromWei(userInfo.Getreward)) < parseFloat(web3.utils.fromWei(userInfo.pkgNotoID))){
                 if(parseInt(userInfo.perDay) <=12){
 
-                        let createBid=await contractOf.methods.createBet(tokenid, MintingContractAddress).send({
+                        let createBid=await contractOf.methods.createBet(tokenid, wireNftContractAddress).send({
                             from: acc
                        })
                        nivigating("/Items/horse_racing")
@@ -144,12 +168,12 @@ const startRace=async(tokenid)=>{
                                                             <>
 
                                                                 <div class="item-pega">
-                                                                    <a href="#">
+                                                                    <a href="#" onClick={()=>showIdDetail(items.Tokenid)}>
                                                                         <div class="item-box">
                                                                             <div class="item-cover">
-                                                                                <div style={{ display: "block", overflow: "hidden", position: "relative", boxSizing: "border-box", margin: "0px" }}>
+                                                                                <div style={{ display: "block", overflow: "hidden", position: "relative", boxSizing: "border-box", margin: "0px" }} >
                                                                                     <div style={{ display: "block", boxSizing: "border-box", paddingTop: "50%" }}></div>
-                                                                                    <img alt="" src={items.Url} decoding="async" data-nimg="responsive" class="item-cover-img" className='items_img_here ' />
+                                                                                    <img alt="" src={items.Url} decoding="async" data-nimg="responsive" class="item-cover-img" className='items_img_here '  />
                                                                                   
                                                                                 </div>
                                                                             </div>
@@ -198,11 +222,6 @@ const startRace=async(tokenid)=>{
                                                                     </div>
                                                                 </div>
 
-
-
-
-
-
                                                             </>)
                                                     })
                                                 }
@@ -212,433 +231,51 @@ const startRace=async(tokenid)=>{
 
 
 
-
                                         </div>
-                                        {/* <div class="tableHeader">
-                                            <div class="header-title event first"><span>Event</span></div>
-                                            <div class="header-title location"><span>Location</span></div>
-                                            <div class="header-title class">
-                                                <div class="dropdown"><button aria-haspopup="true" aria-expanded="false" id="dropdown-basic" type="button" class="dropdown-toggle btn btn-link" data-bs-toggle="dropdown">Class</button></div>
-                                            </div>
-                                            <div class="header-title distance"><span>Distance</span></div>
-                                            <div class="header-title date"><span>Date</span></div>
-                                            <div class="header-title prizepool"><span>Prizepool</span></div>
-                                            <div class="header-title action end"><span>Action</span></div>
-                                        </div> */}
-                                        {/* <div class="tableContent">
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921764</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">3500m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip t9baa8b22-bebc-43ae-a824-a6665fb79e92 place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    
-                                                        <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                               
-                                                    <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921763</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">3500m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip tafd145c7-4fe8-4a76-ab19-7a4771fbd29b place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921762</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">4000m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip t7898b3f6-4da4-4169-8317-8b0673d4201b place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921761</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">4000m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip t89b64d62-4d6c-4e2b-9dc3-89b2dc7def68 place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921760</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">4000m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip t4fb7e9a5-e832-4381-8e2d-06f86e3e4718 place-top type-dark" id="copy" data-id="tooltip">
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921759</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">3500m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip t81384b82-c8c8-4879-921d-b92a48289355 place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921758</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">4000m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip t6b08ea37-d704-464a-862b-72cf982c5cd3 place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921757</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">4000m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip t1f3f6487-790f-4e69-81b7-37faf2995fce place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921756</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">3500m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip t9f09d2c9-1e40-4197-88fb-fc5f42a4b099 place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921755</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">3500m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip t1e620324-d375-40cf-9cbc-66d66c5aac81 place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921754</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">3500m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip t58a34fa3-34b3-42f7-8e46-fd180bc2503f place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921753</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">4000m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip tf9715a12-2859-4a79-bf12-4ed1aef84626 place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                            <div class="item-content">
-                                                <div class="item-title event first">Race #17921752</div>
-                                                <div class="item-title location">Pegaxy</div>
-                                                <div class="item-title class">
-                                                    <div class="class-pega">Class 1</div>
-                                                </div>
-                                                <div class="item-title distance">3500m</div>
-                                                <div class="item-title date">0</div>
-                                                <div class="item-title prizepool">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "14px", height: "14px" }}>
-                                                        <img alt="" src="images/VIS.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                    <span>175</span>
-                                                </div>
-                                                <div class="item-title action end">
-                                                    <div class="__react_component_tooltip tab5efdfe-21b3-4c08-82f5-f69689074355 place-top type-dark" id="copy" data-id="tooltip">
-
-
-                                                    </div>
-                                                    <div data-tip="true" data-for="copy" class="action-share" currentitem="false" style={{ cursor: "pointer" }}><span>share</span></div>
-                                                             <Link to="/Items/horse_racing">
-
-                                                        <div class="action-replay" style={{ cursor: "pointer" }}><span>replay</span></div>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </div> */}
-                                        {/* <div class="viewPagination">
-                                            <div class="pagination-inner">
-                                                <div class="item-pagination-icon">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "24px", height: "24px" }}>
-                                                        <img alt="" src="images/arrow-left.png" decoding="async" data-nimg="fixed" class="pagination-img pagination-left" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                </div>
-                                                <div class="item-pagination active"><span>1</span></div>
-                                                <div class="item-pagination"><span>2</span></div>
-                                                <div class="item-pagination"><span>3</span></div>
-                                                <div class="item-pagination"><span>4</span></div>
-                                                <div class="item-pagination"><span>5</span></div>
-                                                <span>...</span>
-                                                <div class="item-pagination"><span>111</span></div>
-                                                <div class="item-pagination-icon">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "24px", height: "24px" }}>
-                                                        <img alt="" src="images/arrow-right.png" decoding="async" data-nimg="fixed" class="pagination-img pagination-right" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> */}
+                                       
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {/* <div class="bx-right auto">
-                            <div class="bx-header">
-                                <div class="header-inner">
-                                    <div class="header-title">Start racing</div>
-                                </div>
-                            </div>
-                            <div class="bx-content">
-                                <div class="inner-content">
-                                    <div class="pick-pega">
-                                        <div class="btn-pick">
-                                            <div>
-                                                <div class="btn-pick-icon">
-                                                    <div style={{ overflow: "hidden", boxSizing: "border-box", display: "inline-block", position: "relative", width: "120px", height: "120px" }}>
-                                                        <img alt="pick" src="images/start_race.png" decoding="async" data-nimg="fixed" className='items_img_here' />
-                                                        <noscript></noscript>
-                                                    </div>
-                                                </div>
-                                                <div class="button-game pinks" style={{ height: "40px" }}>
-                                                    <div class="btn-position button-game-left" style={{ width: "16px", height: "40px" }}></div>
-                                                    <div class="btn-position button-game-content" style={{ height: "40px", paddingRight: "16px", paddingLeft: "16px" }}>
-                                                        <div class="content-name"><span class="content-name-sub"></span><span class="content-name-title" style={{ fontSize: "18px" }}>Pick a Pega</span></div>
-                                                    </div>
-                                                    <div class="btn-position button-game-right" style={{ width: "16px", height: "40px" }}></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
+                       
                     </div>
                 </div>
             </div>
+
+            <Modal
+                show={Auctionmodelopen}
+                size="md"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton onClick={()=>setAuctionmodelopen(false)} >
+                <h3 className='text-white'>NFT Deatails</h3>
+
+                </Modal.Header>
+
+
+
+                <Modal.Body className='model_bg'>
+
+                <div className="firstdiv text-white">
+                            <h4>ID Number</h4>
+                            <p className='mt-1'>#{idDetail.id}</p>
+                        </div>
+                        <div className="firstdiv text-white">
+                            <h4>Daily Reward</h4>
+                            <p className='mt-1'>{idDetail.reward}</p>
+                        </div>
+                        <div className="firstdiv text-white">
+                            <h4>Today Race</h4>
+                            <p className='mt-1'>{idDetail.racePerDay}</p>
+                        </div>
+                    
+
+                
+
+                </Modal.Body>
+
+            </Modal>
 
         </div>
     )

@@ -23696,9 +23696,9 @@ fieldset:disabled .btn {
 	-moz-box-flex: 1;
 	flex: 1 1 auto;
 	padding: 1.5rem 2rem;
-	display: -webkit-flex;
-	display: -moz-box;
-	display: flex;
+	/* display: -webkit-flex;
+	display: -moz-box; */
+	/* display: flex; */
 	-webkit-flex-direction: column;
 	-moz-box-orient: vertical;
 	-moz-box-direction: normal;
@@ -23718,9 +23718,9 @@ fieldset:disabled .btn {
 }
 
 .modal-footer {
-	display: -webkit-flex;
-	display: -moz-box;
-	display: flex;
+	/* display: -webkit-flex;
+	display: -moz-box; */
+	/* display: flex; */
 	-webkit-flex-wrap: wrap;
 	flex-wrap: wrap;
 	-webkit-flex-shrink: 0;
